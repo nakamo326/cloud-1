@@ -2,6 +2,7 @@ resource "aws_instance" "ec2" {
   # Ubuntu 22.04 LTS
   ami           = "ami-0d52744d6551d851e"
   instance_type = "t2.micro"
+  subnet_id = aws_subnet.subnet.id
   tags = {
     Name = "cloud-1-ec2"
   }
