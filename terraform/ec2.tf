@@ -3,7 +3,7 @@ resource "aws_instance" "ec2" {
   ami           = "ami-0d52744d6551d851e"
   instance_type = "t2.micro"
   tags = {
-    Name = "cloud-1"
+    Name = "cloud-1-ec2"
   }
   root_block_device {
     volume_type = "gp2"
