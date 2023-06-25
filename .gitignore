@@ -2,3 +2,4 @@
 .terraform
 terraform.tfstate
 terraform.tfstate.backup
+terraform/cloud-1-key-pair.pem

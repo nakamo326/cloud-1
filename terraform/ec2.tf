@@ -2,7 +2,11 @@ resource "aws_instance" "ec2" {
   # Ubuntu 22.04 LTS
   ami           = "ami-0d52744d6551d851e"
   instance_type = "t2.micro"
+  key_name = var.key_pair_name
   subnet_id = aws_subnet.subnet.id
+  # TODO: use elastic ip
+  associate_public_ip_address = "true"
+  vpc_security_group_ids = [aws_security_group.ec2.id]
   tags = {
     Name = "cloud-1-ec2"
   }
@@ -12,3 +16,35 @@ resource "aws_instance" "ec2" {
   }
 }
 
+# security group for ec2, allow ssh, http, https
+resource "aws_security_group" "ec2" {
+  name = "cloud-1-ec2-sg"
+  vpc_id = aws_vpc.vpc.id
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "cloud-1-ec2-sg"
+  }
+}
