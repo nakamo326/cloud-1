@@ -6,7 +6,7 @@ resource "aws_instance" "ec2" {
   subnet_id = aws_subnet.subnet.id
   # TODO: use elastic ip
   associate_public_ip_address = "true"
-  vpc_security_group_ids = [aws_security_group.ec2.id]
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   tags = {
     Name = "cloud-1-ec2"
   }
@@ -17,7 +17,7 @@ resource "aws_instance" "ec2" {
 }
 
 # security group for ec2, allow ssh, http, https
-resource "aws_security_group" "ec2" {
+resource "aws_security_group" "ec2_sg" {
   name = "cloud-1-ec2-sg"
   vpc_id = aws_vpc.vpc.id
   ingress {
