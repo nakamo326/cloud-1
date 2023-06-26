@@ -6,8 +6,10 @@
 5. `make ssh`でデプロイしたec2インスタンスにアクセスできることを確認
 
 #### TODO
+- ホストへのterraform、aws cliのインストール
 - (bonus)ec2を停止してもIPアドレスが変わらないようにelastic IPを使うように変更
 - (bonus)作成したelastic IPへドメインが向くようにDNSを設定
+- (bonus)ACMを使った証明書の管理
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
