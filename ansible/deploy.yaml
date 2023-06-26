@@ -1,0 +1,59 @@
+- name: Run docker-compose on EC2 instance
+  hosts: myserver
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Update apt-get repo and cache
+      ansible.builtin.apt:
+        update_cache: true
+        force_apt_get: true
+        cache_valid_time: 3600
+
+    - name: Install packages to allow apt to use a repository over HTTPS
+      ansible.builtin.apt:
+        name: "{{ item }}"
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - gnupg
+        - lsb-release
+
+    - name: Get Docker's official GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+
+    - name: Add Docker apt repository.
+      ansible.builtin.apt_repository:
+        repo: >
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        state: present
+
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        update_cache: true
+      with_items:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+
+    - name: Ensure Docker service is running
+      ansible.builtin.systemd:
+        state: started
+        enabled: true
+        name: docker
+
+    - name: Sync ../app directory to the remote node
+      ansible.posix.synchronize:
+        src: ../app
+        dest: /root
+        delete: true
+        recursive: true
+
+    - name: Run docker-compose up
+      ansible.builtin.command: docker compose -f /root/app/docker-compose.yaml up -d
