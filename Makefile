@@ -3,6 +3,7 @@ all:
 	$(MAKE) -C ./ansible all
 
 des:
+	$(MAKE) -C ./ansible des
 	$(MAKE) -C ./terraform des
 
 ssh:
