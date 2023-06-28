@@ -49,11 +49,11 @@
         name: docker
 
     - name: Sync ../app directory to the remote node
-      ansible.posix.synchronize:
+      ansible.builtin.copy:
         src: ../app
         dest: /root
-        delete: true
-        recursive: true
+        mode: "0644"
 
     - name: Run docker-compose up
       ansible.builtin.command: docker compose -f /root/app/docker-compose.yaml up -d
+      changed_when: false
