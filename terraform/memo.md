@@ -20,6 +20,8 @@
 - [ ] デプロイされるアプリインスタンスにALBでパブリックアクセスをルーティングする
   - ALBは登録されたドメインのサブドメインをそれぞれのサイトの識別子として利用する
 - プロビジョニングのためのSSH接続をどう用意するか要検討
+  - AWS Bastion的な踏み台を設置して、そこから作業を行う（妥当、課題要件を満たせるか不明
+  - 全てのEC2インスタンスにパブリックIPを用意しローカルからSSH接続する（妥当でない、おそらく課題要件的には問題なし
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
