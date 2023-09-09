@@ -11,6 +11,16 @@
 - (bonus)作成したelastic IPへドメインが向くようにDNSを設定
 - (bonus)ACMを使った証明書の管理
 
+#### 9/9追記
+何も覚えてないので、やりたかったであろうことを再整理する
+- [ ] Route53でドメインを管理する
+  - 予め取得したドメインのホストゾーンを構成する
+- [ ] ACMで証明書を管理する
+  - ワイルドカード証明書
+- [ ] デプロイされるアプリインスタンスにALBでパブリックアクセスをルーティングする
+  - ALBは登録されたドメインのサブドメインをそれぞれのサイトの識別子として利用する
+- プロビジョニングのためのSSH接続をどう用意するか要検討
+
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
 [【Terraform入門】AWSのVPCとEC2を構築してみる - ふにノート](https://kacfg.com/terraform-vpc-ec2/#Terraformtf)
