@@ -3,7 +3,7 @@ locals {
   zone_name = "nakamo.dev"
 }
 
-# TODO: zoneはdataにする
-resource "aws_route53_zone" "main" {
+data "aws_route53_zone" "zone" {
   name = local.zone_name
+  private_zone = false
 }
