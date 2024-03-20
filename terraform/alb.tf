@@ -12,13 +12,6 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -35,8 +28,10 @@ resource "aws_security_group" "alb_sg" {
 
 resource "aws_alb_listener" "alb_listener" {
   load_balancer_arn = aws_alb.alb.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert.arn
 
   default_action {
     type             = "forward"
@@ -67,22 +62,3 @@ resource "aws_alb_target_group_attachment" "alb_target_group_attachment" {
   target_group_arn = aws_alb_target_group.alb_target_group.arn
   target_id        = aws_instance.ec2.id
 }
-
-resource "aws_alb_listener" "alb_listener_https" {
-  load_balancer_arn = aws_alb.alb.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.cert.arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.alb_target_group.arn
-  }
-}
-
-resource "aws_alb_target_group_attachment" "alb_target_group_attachment_https" {
-  target_group_arn = aws_alb_target_group.alb_target_group.arn
-  target_id        = aws_instance.ec2.id
-}
-
