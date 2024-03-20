@@ -6,15 +6,30 @@ resource "aws_alb" "alb" {
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
-resource "aws_route53_record" "www" {
-  name    = "www.${local.zone_name}"
-  type    = "A"
-  zone_id = data.aws_route53_zone.zone.id
+resource "aws_security_group" "alb_sg" {
+  name        = "cloud-1-alb-sg"
+  description = "Allow HTTP and HTTPS traffic"
+  vpc_id      = aws_vpc.vpc.id
 
-  alias {
-    name                   = aws_alb.alb.dns_name
-    zone_id                = aws_alb.alb.zone_id
-    evaluate_target_health = true
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -53,29 +68,21 @@ resource "aws_alb_target_group_attachment" "alb_target_group_attachment" {
   target_id        = aws_instance.ec2.id
 }
 
-resource "aws_security_group" "alb_sg" {
-  name        = "cloud-1-alb-sg"
-  description = "Allow HTTP and HTTPS traffic"
-  vpc_id      = aws_vpc.vpc.id
+resource "aws_alb_listener" "alb_listener_https" {
+  load_balancer_arn = aws_alb.alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert.arn
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.alb_target_group.arn
   }
 }
+
+resource "aws_alb_target_group_attachment" "alb_target_group_attachment_https" {
+  target_group_arn = aws_alb_target_group.alb_target_group.arn
+  target_id        = aws_instance.ec2.id
+}
+
