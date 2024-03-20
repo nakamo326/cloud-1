@@ -22,16 +22,16 @@
 - [x] デプロイされるアプリインスタンスにALBでパブリックアクセスをルーティングする
   - ALBは登録されたドメインのサブドメインをそれぞれのサイトの識別子として利用する
 
-#### TODO:
-- プロビジョニングのためのSSH接続をどう用意するか要検討
-  - AWS Bastion的な踏み台を設置して、そこから作業を行う（妥当、課題要件を満たせるか不明
-  - 全てのEC2インスタンスにパブリックIPを用意しローカルからSSH接続する（妥当でない、おそらく課題要件的には問題なし
-
 #### 2024/03/20追記
 - おそらくのToBe
   - cloud-1環境に単一のALBがあり、複数のサイトにルーティングを行う
   - 1つのサイトがmodule化されており、moduleの宣言を増やすことで複数のサイトをデプロイできる
   - サブドメインを指定することでALBにルーティングが追加される
+
+#### 踏み台経由のansible実行
+- TLSの実装でALB経由でパブリックからアクセスされるようになったため、ec2のパブリックIPアドレスは不要
+- ansibleの実行にec2のパブリックIPを利用しているため、踏み台としてBastionをデプロイしてBastion経由でAnsibleを実行したい
+
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
