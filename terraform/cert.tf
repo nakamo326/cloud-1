@@ -4,13 +4,13 @@ locals {
 }
 
 data "aws_route53_zone" "zone" {
-  name = local.zone_name
+  name         = local.zone_name
   private_zone = false
 }
 
 resource "aws_acm_certificate" "cert" {
-  domain_name = local.zone_name
-  validation_method = "DNS"
+  domain_name               = local.zone_name
+  validation_method         = "DNS"
   subject_alternative_names = ["*.${local.zone_name}"]
   # albにアタッチされている時、ロックされるため
   lifecycle {

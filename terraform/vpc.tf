@@ -1,4 +1,4 @@
-resource "aws_vpc" "vpc"{
+resource "aws_vpc" "vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   tags = {
@@ -7,9 +7,9 @@ resource "aws_vpc" "vpc"{
 }
 
 resource "aws_subnet" "subnet" {
-  vpc_id     = aws_vpc.vpc.id
+  vpc_id            = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1a"
-  cidr_block = "10.0.0.0/24"
+  cidr_block        = "10.0.0.0/24"
   tags = {
     Name = "cloud-1-subnet"
   }
