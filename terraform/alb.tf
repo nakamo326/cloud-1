@@ -37,7 +37,7 @@ resource "aws_alb_target_group" "alb_target_group" {
   health_check {
     enabled             = true
     interval            = 30
-    path                = "/"
+    path                = "/healthz"
     port                = "traffic-port"
     protocol            = "HTTP"
     timeout             = 5
