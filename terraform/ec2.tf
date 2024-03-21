@@ -4,14 +4,14 @@ resource "aws_instance" "ec2" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.subnet.id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
-  tags = {
-    Name = "cloud-1-ec2"
-  }
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   root_block_device {
     volume_type = "gp2"
     volume_size = 30
   }
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  tags = {
+    Name = "cloud-1-ec2"
+  }
 }
 
 # security group for ec2, allow http traffic
