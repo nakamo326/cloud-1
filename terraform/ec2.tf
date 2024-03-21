@@ -14,7 +14,7 @@ resource "aws_instance" "ec2" {
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 }
 
-# security group for ec2, allow ssh, http, https
+# security group for ec2, allow http traffic
 resource "aws_security_group" "ec2_sg" {
   name   = "cloud-1-ec2-sg"
   vpc_id = aws_vpc.vpc.id
