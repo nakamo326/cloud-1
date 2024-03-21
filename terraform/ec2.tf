@@ -1,11 +1,10 @@
 resource "aws_instance" "ec2" {
   # Ubuntu 22.04 LTS TODO: check the latest version
-  ami                         = "ami-0eba6c58b7918d3a1"
-  instance_type               = "t2.micro"
-  key_name                    = var.key_pair_name
-  subnet_id                   = aws_subnet.subnet.id
-  associate_public_ip_address = "true"
-  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  ami                    = "ami-0eba6c58b7918d3a1"
+  instance_type          = "t2.micro"
+  key_name               = var.key_pair_name
+  subnet_id              = aws_subnet.subnet.id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   tags = {
     Name = "cloud-1-ec2"
   }
