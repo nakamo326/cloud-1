@@ -42,3 +42,4 @@
 [【Terraform入門】AWSのVPCとEC2を構築してみる - ふにノート](https://kacfg.com/terraform-vpc-ec2/#Terraformtf)
 [VPC - Terraformで構築するAWS](https://y-ohgi.com/introduction-terraform/handson/vpc/)
 [How to Create Key Pair in AWS using Terraform in Right Way - CloudKatha](https://cloudkatha.com/how-to-create-key-pair-in-aws-using-terraform-in-right-way/)
+[https化 - Terraformで構築するAWS](https://y-ohgi.com/introduction-terraform/handson/https/)
