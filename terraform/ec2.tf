@@ -1,6 +1,6 @@
 resource "aws_instance" "ec2" {
   # Ubuntu 22.04 LTS TODO: check the latest version
-  ami                         = "ami-0d52744d6551d851e"
+  ami                         = "ami-0eba6c58b7918d3a1"
   instance_type               = "t2.micro"
   key_name                    = var.key_pair_name
   subnet_id                   = aws_subnet.subnet.id
