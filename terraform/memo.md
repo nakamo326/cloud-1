@@ -43,3 +43,4 @@
 [VPC - Terraformで構築するAWS](https://y-ohgi.com/introduction-terraform/handson/vpc/)
 [How to Create Key Pair in AWS using Terraform in Right Way - CloudKatha](https://cloudkatha.com/how-to-create-key-pair-in-aws-using-terraform-in-right-way/)
 [https化 - Terraformで構築するAWS](https://y-ohgi.com/introduction-terraform/handson/https/)
+[インターネットにアクセスせずにプライベート EC2 インスタンスを管理する | AWS re:Post](https://repost.aws/ja/knowledge-center/ec2-systems-manager-vpc-endpoints)
