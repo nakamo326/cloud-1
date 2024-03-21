@@ -12,6 +12,7 @@ resource "aws_instance" "ec2" {
     volume_type = "gp2"
     volume_size = 30
   }
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 }
 
 # security group for ec2, allow ssh, http, https
@@ -45,4 +46,29 @@ resource "aws_security_group" "ec2_sg" {
   tags = {
     Name = "cloud-1-ec2-sg"
   }
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "EC2_SSM_Role"
+  role = aws_iam_role.ec2_role.name
+}
+
+data "aws_iam_policy_document" "ssm_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ec2_role" {
+  name               = "EC2_SSM_Role"
+  assume_role_policy = data.aws_iam_policy_document.ssm_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_policy" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
