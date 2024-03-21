@@ -32,7 +32,10 @@
 - TLSの実装でALB経由でパブリックからアクセスされるようになったため、ec2のパブリックIPアドレスは不要
 - ansibleの実行にec2のパブリックIPを利用しているため、踏み台としてBastionをデプロイしてBastion経由でAnsibleを実行したい
 - AWSには踏み台専用のサービスはないっぽいのでどーするか考える
-
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/session-manager-to-linux.html
+- session managerを使うのが今時っぽい
+- https://zenn.dev/zenogawa/articles/ansible_aws_ssm
+  - session managerからansible使う解説
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
