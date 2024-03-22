@@ -15,6 +15,12 @@ resource "aws_subnet" "subnet" {
   }
 }
 
+resource "aws_subnet" "private_subnet" {
+  vpc_id            = aws_vpc.vpc.id
+  availability_zone = "ap-northeast-1a"
+  cidr_block        = "10.0.2.0/24"
+}
+
 resource "aws_subnet" "dummy_subnet" {
   vpc_id            = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1c"

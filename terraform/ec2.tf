@@ -3,7 +3,7 @@ resource "aws_instance" "ec2" {
   ami                    = "ami-0eba6c58b7918d3a1"
   instance_type          = "t2.micro"
   key_name               = var.key_pair_name
-  subnet_id              = aws_subnet.subnet.id
+  subnet_id              = aws_subnet.private_subnet.id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   root_block_device {
@@ -15,7 +15,7 @@ resource "aws_instance" "ec2" {
   }
 }
 
-# security group for ec2, allow http traffic
+# security group for ec2, allow http, https
 resource "aws_security_group" "ec2_sg" {
   name   = "cloud-1-ec2-sg"
   vpc_id = aws_vpc.vpc.id
