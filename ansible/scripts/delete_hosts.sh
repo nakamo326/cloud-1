@@ -1,14 +1,14 @@
 #!/bin/bash
 
-ip_address=`terraform -chdir=../terraform output -raw ec2_ip`
+instance_id=`terraform -chdir=../terraform output -raw ec2_instance_id`
 
-if [ -z "$ip_address" ]; then
+if [ -z "$instance_id" ]; then
   echo "No IP Address retrieved."
   exit 1
 fi
 
 if [ `uname` == "Darwin" ]; then
-  sed -i "" "/${ip_address}/d" hosts
+  sed -i "" "/${instance_id}/d" hosts
 else
-  sed -i "/${ip_address}/d" hosts
+  sed -i "/${instance_id}/d" hosts
 fi
