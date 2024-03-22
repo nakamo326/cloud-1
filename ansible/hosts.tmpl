@@ -1,5 +1,7 @@
-[myserver:vars]
+[all:vars]
+ansible_ssh_common_args=-o ProxyCommand="sh -c \"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'\""
 ansible_user=ubuntu
 ansible_private_key_file=../terraform/cloud-1-key-pair.pem
 
-[myserver]
+[instance]
+instance1 ansible_host=

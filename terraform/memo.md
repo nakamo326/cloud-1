@@ -34,8 +34,14 @@
 - AWSには踏み台専用のサービスはないっぽいのでどーするか考える
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/session-manager-to-linux.html
 - session managerを使うのが今時っぽい
+
+#### session manager経由のssh接続
 - https://zenn.dev/zenogawa/articles/ansible_aws_ssm
   - session managerからansible使う解説
+- https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-enable-ssh-connections.html
+  - ansible/.ssh.configにリンクのconfigを配置
+  - `ssh -i cloud-1-key-pair.pem -F ../ansible/.ssh.config ubuntu@i-03f9ae5e0a31e7fda`でssh接続できることを確認
+
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
