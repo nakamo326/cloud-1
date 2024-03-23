@@ -4,10 +4,12 @@ if [ ! -e ./hosts ]; then
   cp ./hosts.tmpl ./hosts
 fi
 
-ip_address=`terraform -chdir=../terraform output -raw ec2_instance_id`
+instances=`terraform -chdir=../terraform output -json ec2_instance_id | jq -r '.[]'`
 
-if grep -q ${ip_address} ./hosts; then
-  exit 0
-fi
+for instance in ${instances}; do
+  if grep -q ${instance} ./hosts; then
+    continue
+  fi
 
-echo ${ip_address} >> ./hosts
+  echo ${instance} >> ./hosts
+done
