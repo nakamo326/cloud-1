@@ -53,6 +53,22 @@ resource "aws_alb_target_group" "dummy_tg" {
   vpc_id   = aws_vpc.vpc.id
 }
 
+resource "aws_alb_listener_rule" "listener_rule" {
+  for_each     = toset(local.site_list)
+  listener_arn = aws_alb_listener.alb_listener.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
+  }
+
+  condition {
+    host_header {
+      values = ["${each.key}.${local.zone_name}"]
+    }
+  }
+}
+
 resource "aws_alb_target_group" "alb_target_group" {
   for_each = toset(local.site_list)
   name     = "cloud-1-alb-tg-${each.key}"
