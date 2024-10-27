@@ -6,3 +6,6 @@ terraform/cloud-1-key-pair.pem
 
 # for ansible
 ansible/hosts
+
+# for vscode
+.vscode
