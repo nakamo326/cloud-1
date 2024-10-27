@@ -4,7 +4,7 @@ if [ ! -e ./hosts ]; then
   cp ./hosts.tmpl ./hosts
 fi
 
-ip_address=`terraform -chdir=../terraform output -raw ec2_ip`
+ip_address=`terraform -chdir=../terraform output -raw ec2_instance_id`
 
 if grep -q ${ip_address} ./hosts; then
   exit 0

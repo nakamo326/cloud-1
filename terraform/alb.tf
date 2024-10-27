@@ -12,6 +12,13 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -61,4 +68,20 @@ resource "aws_alb_target_group" "alb_target_group" {
 resource "aws_alb_target_group_attachment" "alb_target_group_attachment" {
   target_group_arn = aws_alb_target_group.alb_target_group.arn
   target_id        = aws_instance.ec2.id
+}
+
+### redicret http to https
+resource "aws_alb_listener" "alb_listener_http" {
+  load_balancer_arn = aws_alb.alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
 }
