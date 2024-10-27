@@ -1,14 +1,17 @@
 #!/bin/bash
 
-instance_id=`terraform -chdir=../terraform output -raw ec2_instance_id`
 
-if [ -z "$instance_id" ]; then
-  echo "No IP Address retrieved."
-  exit 1
-fi
+instances=`terraform -chdir=../terraform output -json ec2_instance_id | jq -r '.[]'`
 
-if [ `uname` == "Darwin" ]; then
-  sed -i "" "/${instance_id}/d" hosts
-else
-  sed -i "/${instance_id}/d" hosts
-fi
+# delete instance from hosts file
+for instance_id in ${instances}; do
+  if ! grep -q ${instance_id} hosts; then
+    continue
+  fi
+
+  if [ `uname` == "Darwin" ]; then
+    sed -i "" "/${instance_id}/d" hosts
+  else
+    sed -i "/${instance_id}/d" hosts
+  fi
+done

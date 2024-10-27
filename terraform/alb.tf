@@ -42,12 +42,36 @@ resource "aws_alb_listener" "alb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.alb_target_group.arn
+    target_group_arn = aws_alb_target_group.dummy_tg.arn
+  }
+}
+
+resource "aws_alb_target_group" "dummy_tg" {
+  name     = "cloud-1-alb-dummy-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.vpc.id
+}
+
+resource "aws_alb_listener_rule" "listener_rule" {
+  for_each     = toset(local.site_list)
+  listener_arn = aws_alb_listener.alb_listener.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
+  }
+
+  condition {
+    host_header {
+      values = ["${each.key}.${local.zone_name}"]
+    }
   }
 }
 
 resource "aws_alb_target_group" "alb_target_group" {
-  name     = "cloud-1-alb-tg"
+  for_each = toset(local.site_list)
+  name     = "cloud-1-alb-tg-${each.key}"
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc.id
@@ -66,8 +90,9 @@ resource "aws_alb_target_group" "alb_target_group" {
 }
 
 resource "aws_alb_target_group_attachment" "alb_target_group_attachment" {
-  target_group_arn = aws_alb_target_group.alb_target_group.arn
-  target_id        = aws_instance.ec2.id
+  for_each         = toset(local.site_list)
+  target_group_arn = aws_alb_target_group.alb_target_group[each.key].arn
+  target_id        = aws_instance.ec2[each.key].id
 }
 
 ### redicret http to https

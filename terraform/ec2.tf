@@ -1,4 +1,5 @@
 resource "aws_instance" "ec2" {
+  for_each = toset(local.site_list)
   # Ubuntu 22.04 LTS TODO: check the latest version
   ami                    = "ami-0eba6c58b7918d3a1"
   instance_type          = "t2.micro"
@@ -11,7 +12,7 @@ resource "aws_instance" "ec2" {
     volume_size = 30
   }
   tags = {
-    Name = "cloud-1-ec2"
+    Name = "cloud-1-ec2-${each.key}"
   }
 }
 

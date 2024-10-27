@@ -9,6 +9,7 @@ des:
 ssh:
 	$(MAKE) -C ./terraform ssh
 
+# for apple silicon
 install_ssm:
 	curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac_arm64/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
 	unzip sessionmanager-bundle.zip

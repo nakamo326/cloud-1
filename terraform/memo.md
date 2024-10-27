@@ -42,6 +42,13 @@
   - ansible/.ssh.configにリンクのconfigを配置
   - `ssh -i cloud-1-key-pair.pem -F ../ansible/.ssh.config ubuntu@i-03f9ae5e0a31e7fda`でssh接続できることを確認
 
+### 使用しているツール
+- aws cli
+- session-manager-plugin
+- terraform
+- jq
+- ansible
+
 
 #### 参考情報
 [aws\_instance | Resources | hashicorp/aws | Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs_block_device)
