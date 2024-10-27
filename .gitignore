@@ -3,3 +3,6 @@
 terraform.tfstate
 terraform.tfstate.backup
 terraform/cloud-1-key-pair.pem
+
+# for ansible
+# ansible/hosts
